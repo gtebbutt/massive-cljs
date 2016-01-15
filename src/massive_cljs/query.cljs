@@ -15,7 +15,7 @@
              (let [return {:error? (not (empty? err))}]
                (go (>! channel
                        (if (empty? err)
-                         (assoc return :content (parse results))
+                         (assoc return :content (parse results :keywordize-keys true))
                          (assoc return :msg err)))
                    (close! channel)))
              ))
