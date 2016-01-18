@@ -1,5 +1,6 @@
 (ns massive-cljs.query
-  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require-macros [cljs.core.async.macros :refer [go]]
+                   [massive-cljs.query])
   (:require [cljs.core.async :refer [>! chan close!]]
             [massive-cljs.core :refer [instance parse]]))
 
