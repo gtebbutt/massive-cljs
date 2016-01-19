@@ -7,13 +7,12 @@
 (defn handler
   [channel]
   (fn [err results]
-    (let [return {:error? (not (empty? err))}]
+    (let [return {:error? (boolean err)}]
       (go (>! channel
-              (if (empty? err)
-                (assoc return :content (parse results :keywordize-keys true))
-                (assoc return :msg err)))
-          (close! channel)))
-    ))
+              (if err
+                (assoc return :msg err)
+                (assoc return :content (parse results :keywordize-keys true))))
+          (close! channel)))))
 
 (defn run
   ([query]
