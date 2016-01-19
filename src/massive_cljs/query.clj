@@ -9,8 +9,8 @@
 (defmacro db-fn
   ([fn-name params]
    ;Hidden macro arguments &form &env must be passed explicitly
-   (db-fn &form &env fn-name nil params))
-  ([fn-name table params]
+   (db-fn &form &env nil fn-name params))
+  ([table fn-name params]
    `(let [channel# (cljs.core.async/chan)]
       (-> (deref massive-cljs.core/instance)
           (~(if table (symbol (str ".-" (name table))) 'identity))
