@@ -10,10 +10,15 @@
     (js/require "massive")
     (catch js/Object e nil)))
 
+(defn connect!
+  [uri]
+  (if-let [lib (massive-lib)]
+    (.connectSync lib #js {:connectionString uri})
+    (throw (js/Error. "massive-js library not found"))))
+
 (defn init!
   [uri]
-  (when-let [lib (massive-lib)]
-    (reset! instance (.connectSync lib #js {:connectionString uri}))))
+  (reset! instance (connect! uri)))
 
 (defn parse
   ([x] (parse x {:keywordize-keys false}))
