@@ -19,6 +19,6 @@
              '(deref massive-cljs.core/instance))
           (~(if table (symbol (str ".-" (name table))) 'identity))
           (~(symbol (str "." (camel-case (name fn-name))))
-            (cljs.core/clj->js ~params)
-            (handler channel#)))
+            (cljs.core/clj->js ~params))
+          (handler channel#))
       channel#)))
