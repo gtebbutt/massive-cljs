@@ -1,13 +1,15 @@
 # massive-cljs
 Thin Clojurescript wrapper for [MassiveJS](https://github.com/robconery/massive-js)
-> Massive's goal is to help you get data from your database. This is not an ORM, it's a bit more than a query tool - our goal is to do just enough, then get out of your way. 
+> Massive's goal is to help you get data from your database. This is not an ORM, it's a bit more than a query tool - our goal is to do just enough, then get out of your way.
 
-If you're wondering why you might want to use Massive over a traditional ORM in general, this [blog post](http://rob.conery.io/2015/03/13/bringing-the-power-of-postgres-to-nodejs/) is a good place to start. 
+If you're wondering why you might want to use Massive over a traditional ORM in general, this [blog post](http://rob.conery.io/2015/03/13/bringing-the-power-of-postgres-to-nodejs/) is a good place to start.
 
 For Clojure(script) specifically, the drawbacks of using an ORM multiply: often the abstractions rely on extracting data into mutable objects, which are then edited and saved back to the database. Not an insurmountable problem, but a conflict of styles which rapidly [becomes clear](https://github.com/gtebbutt/sequelize-cljs) in development.
 
+**NB: Version 0.2.0 is compatible with Massive >=3.0.0; version 0.1.0 targets Massive 2.x**
+
 ## Usage
-### Require: 
+### Require:
 ```Clojure
 (ns example.core
   (:require-macros [cljs.core.async.macros :refer [go]])
