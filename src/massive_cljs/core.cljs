@@ -1,4 +1,6 @@
-(ns massive-cljs.core)
+(ns massive-cljs.core
+  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require [cljs.core.async :refer [>! <! chan close!]]))
 
 (defonce instance (atom nil))
 
@@ -12,13 +14,22 @@
 
 (defn connect!
   [uri]
-  (if-let [lib (massive-lib)]
-    (.connectSync lib #js {:connectionString uri})
-    (throw (js/Error. "massive-js library not found"))))
+  (let [channel (chan)]
+    (if-let [lib (massive-lib)]
+      (-> (lib uri)
+          (.then (fn [inst]
+                   (go
+                     (>! channel inst)
+                     (close! channel)))))
+      (do
+        (close! channel)
+        (throw (js/Error. "massive-js library not found"))))
+    channel))
 
 (defn init!
   [uri]
-  (reset! instance (connect! uri)))
+  (go
+    (reset! instance (<! (connect! uri)))))
 
 (defn parse
   ([x] (parse x {:keywordize-keys false}))
