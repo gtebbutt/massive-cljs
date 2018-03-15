@@ -27,24 +27,24 @@
          keyfn (if keywordize-keys keyword str)
          f (fn thisfn [x]
              (cond
-              (satisfies? IEncodeClojure x)
-              (-js->clj x (apply array-map opts))
+               (satisfies? IEncodeClojure x)
+               (-js->clj x (apply array-map opts))
 
-              (seq? x)
-              (doall (map thisfn x))
+               (seq? x)
+               (doall (map thisfn x))
 
-              (coll? x)
-              (into (empty x) (map thisfn x))
+               (coll? x)
+               (into (empty x) (map thisfn x))
 
-              (array? x)
-              (vec (map thisfn x))
+               (array? x)
+               (vec (map thisfn x))
 
-              (instance? js/Date x)
-              x
+               (instance? js/Date x)
+               x
 
-              (= (goog/typeOf x) "object")
-              (into {} (for [k (js-keys x)]
-                         [(keyfn k) (thisfn (aget x k))]))
+               (= (goog/typeOf x) "object")
+               (into {} (for [k (js-keys x)]
+                          [(keyfn k) (thisfn (aget x k))]))
 
-              :else x))]
+               :else x))]
      (f x))))
