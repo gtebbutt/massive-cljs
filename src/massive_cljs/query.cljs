@@ -5,22 +5,23 @@
             [massive-cljs.core :refer [instance parse]]))
 
 (defn handler
-  [channel]
-  (fn [err results]
-    (let [return {:error? (boolean err)}]
-      (go (>! channel
-              (if err
-                (assoc return :msg err)
-                (assoc return :content (parse results :keywordize-keys true))))
-          (close! channel)))))
+  [prom channel]
+  (-> prom
+      (.then (fn [results]
+               (go (>! channel {:error? false
+                                :content (parse results :keywordize-keys true)})
+                   (close! channel))))
+      (.catch (fn [err]
+                (go (>! channel {:error? true
+                                 :msg err})
+                    (close! channel))))))
 
 (defn run
   ([query]
    (run query []))
   ([query params]
    (let [channel (chan)]
-     (.run @instance
-           query
-           (clj->js params)
-           (handler channel))
+     (-> @instance
+         (.query query (clj->js params))
+         (handler channel))
      channel)))
