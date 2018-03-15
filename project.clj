@@ -6,10 +6,10 @@
   {:default [:cljs-shared]
 
    :cljs-shared
-   {:dependencies [[org.clojure/clojure "1.7.0"]
-                   [org.clojure/clojurescript "1.7.48"]]
+   {:dependencies [[org.clojure/clojure "1.9.0"]
+                   [org.clojure/clojurescript "1.9.946"]]
 
-    :plugins [[lein-cljsbuild "1.1.0"]]
+    :plugins [[lein-cljsbuild "1.1.7"]]
 
     :cljsbuild
     {:builds [{:id "default"
