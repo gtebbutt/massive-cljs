@@ -1,4 +1,4 @@
-(defproject massive-cljs "0.1.0-SNAPSHOT"
+(defproject massive-cljs "0.2.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
 
