@@ -2,7 +2,7 @@
   (:require-macros [cljs.core.async.macros :refer [go]]
                    [massive-cljs.query])
   (:require [cljs.core.async :refer [>! chan close!]]
-            [massive-cljs.core :refer [instance parse]]))
+            [massive-cljs.core :refer [parse]]))
 
 (defn handler
   [prom channel]
@@ -20,8 +20,10 @@
   ([query]
    (run query []))
   ([query params]
+   (run query params @massive-cljs.core/instance))
+  ([query params instance]
    (let [channel (chan)]
-     (-> @instance
+     (-> instance
          (.query query (clj->js params))
          (handler channel))
      channel)))
